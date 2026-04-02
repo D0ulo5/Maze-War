@@ -62,15 +62,15 @@ fn glyph_index(c: char) -> Option<usize> {
     }
 }
 
-pub fn draw_text(frame: &mut [u8], width: usize, text: &str, x: usize, y: usize, color: [u8; 4], scale: f32) {
+pub fn draw_text(frame: &mut [u8], width: usize, text: &str, x: usize, y: usize, color: [u8; 4], scale: usize) {
     for (i, c) in text.chars().enumerate() {
         if let Some(idx) = glyph_index(c) {
-            draw_glyph(frame, width, idx, x + i * (CHAR_WIDTH*scale as usize + (SPACING*scale as usize).max(1)), y, color, scale as usize);
+            draw_glyph(frame, width, idx, x + i * (CHAR_WIDTH * scale + SPACING * scale), y, color, scale);
         }
     }
 }
 
-fn draw_glyph(frame: &mut [u8], width: usize, idx: usize, x: usize, y: usize, color: [u8; 4], scale: usize,) {
+fn draw_glyph(frame: &mut [u8], width: usize, idx: usize, x: usize, y: usize, color: [u8; 4], scale: usize) {
     for row in 0..CHAR_HEIGHT {
         for col in 0..CHAR_WIDTH {
             if GLYPHS[idx][row * CHAR_WIDTH + col] == 1 {
