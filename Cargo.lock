@@ -300,6 +300,7 @@ dependencies = [
  "common",
  "env_logger",
  "pixels",
+ "rand",
  "winit",
 ]
 

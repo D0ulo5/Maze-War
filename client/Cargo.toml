@@ -8,3 +8,4 @@ common = { path = "../common" }
 pixels = "0.12"
 winit = "0.28"
 env_logger = "0.11"
+rand = "0.8"

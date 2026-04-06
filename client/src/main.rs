@@ -8,9 +8,16 @@ use winit::{
     window::WindowBuilder,
 };
 use common::font::draw_text;
+use common::maze::Maze;
+use minimap::draw_minimap;
 
-const WIDTH: u32  = 800;
-const HEIGHT: u32 = 800;
+mod minimap;
+
+const WIDTH:     u32 = 1200;
+const HEIGHT:    u32 = 800;
+const CELL_SIZE: usize = 8;
+const MAP_X:     usize = 8;
+const MAP_Y:     usize = 20; // below FPS counter
 
 fn prompt(msg: &str) -> String {
     loop {
@@ -50,9 +57,12 @@ fn prompt_username() -> String {
 }
 
 fn main() {
-    let server_addr = prompt_addr();
-    let username    = prompt_username();
+    // let server_addr = prompt_addr();
+    // let username    = prompt_username();
     println!("Starting...");
+
+    let mut rng = rand::thread_rng();
+    let maze    = Maze::generate(21, 21, 0.0, &mut rng);
 
     let event_loop = EventLoop::new();
 
@@ -85,6 +95,7 @@ fn main() {
 
                 let frame = pixels.frame_mut();
                 frame.fill(0);
+                draw_minimap(frame, WIDTH as usize, &maze, CELL_SIZE, MAP_X, MAP_Y);
                 draw_text(frame, WIDTH as usize, &format!("FPS:{}", fps), 4, 4, [255, 255, 255, 255], 1);
 
                 pixels.render().unwrap();
@@ -99,6 +110,6 @@ fn main() {
             _ => {}
         }
 
-        let _ = (&server_addr, &username);
+        //let _ = (&server_addr, &username);
     });
 }
